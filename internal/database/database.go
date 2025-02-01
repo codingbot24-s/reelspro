@@ -17,11 +17,7 @@ func loadEnv() {
 	}
 }
 
-func init () {
-	if err := connect_to_db(); err != nil {
-		log.Fatal("Error connecting to MongoDB")
-	}
-}
+var db *mongo.Client = connect_to_db()	
 
 func connect_to_db () *mongo.Client {
 	loadEnv()
