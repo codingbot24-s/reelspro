@@ -1,34 +1,36 @@
 package database
 
 import (
-	"fmt"
-	"log"
-	"os"
 	"context"
-	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/mongo"
+	"os"
+
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-}
+var Client *mongo.Client = ConnectToDatabase()
 
-var db *mongo.Client = connect_to_db()	
+func ConnectToDatabase() *mongo.Client {
+	
+	uri := os.Getenv("MONGO_URI")
 
-func connect_to_db () *mongo.Client {
-	loadEnv()
-	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
-		log.Fatal("MONGODB_URI is not set")
+		panic("MONGO_URI is not set")
 	}
+
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	fmt.Println("Connected to MongoDB")
+
 	return client
+
 }
