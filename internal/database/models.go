@@ -31,7 +31,7 @@ type Video struct {
 	UpdatedAt 	time.Time `json:"updated_at"`
 }
 
-// VideoDimensions object for check the video dimensions
+// VideoDimensions object for checking the video dimensions
 // type VideoDimensions struct {
 // 	 
 // } 

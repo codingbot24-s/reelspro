@@ -13,6 +13,6 @@ func SetupUserRoutes (router *mux.Router) {
 	
 	apiv1 := router.PathPrefix("/api/v1/").Subrouter()
 	userRouter := apiv1.PathPrefix("/user").Subrouter()
-	userRouter.HandleFunc("/create", handlers.UserCreationHandler).Methods("GET")
+	userRouter.HandleFunc("/create", handlers.UserCreationHandler).Methods("POST")
 }
 
